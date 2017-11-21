@@ -1,7 +1,13 @@
+//Researched and Adapted from:
+//https://data-representation.github.io/notes/ajax.html
+//https://api.jquery.com/keypress/
+//https://api.jquery.com/event.preventdefault/
+//https://msdn.microsoft.com/en-us/library/mt260494.aspx
+
 const list = $("#list");// access list by class or id
-//console.log(list-group);
+//console.log(list);
 const form = $("#userInput");
-//console.log(form-group);
+//console.log(form);
 
 form.keypress(function(event){
 
@@ -13,7 +19,7 @@ form.keypress(function(event){
     //stop this, because we'll make requests with JS not form.
     event.preventDefault();
 
-    const text = form.val(); //val() - get...hold onto it before it gets wiped
+    const text = form.val(); //val() - get...hold onto it before it gets cleared
     form.val(""); //val() - set...set to empty string, 
     //console.log(text); //original text
 
@@ -23,13 +29,13 @@ form.keypress(function(event){
     }
 
     //ajax - append new list item
-    list.append("<li>" + text + "</li>");
+    list.append("<li class=\"list-group-item\">" + text + "</li>");
 
     //.get makes jQuery do a get request
     $.get("/ask", {input:text}) //sends these parameters
         .done(function(resp){ //when it completes, this function executes, "resp" is the response from server
-            list.append("<li>" + resp + "</li>");
+            list.append("<li class=\"form-control\">" + resp + "</li>");//ajax - append new list item
         }).fail(function(){ //fail runs if anything goes wrong
-            list.append("<li>Connection to Eliza lost</li>");
+            list.append("<li>Connection to Eliza lost!</li>");
         });
 });

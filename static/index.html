@@ -23,18 +23,16 @@
     </nav>
 
     <div class="container-fluid">
-        <ul class="list-group" id="list">
-            <li class="list-group-item list-group-item-primary text-right"> Please tell me what’s been bothering you.</li>
-            <li class="list-group-item"> Oh, hello, ELIZA. It’s been a long time.</li>
-            
-        </ul>
+        <!-- javascript/ajax will access ul to add list items (conversation) and hold it temporarily... by append method -->
+        <ul class="list-group" id="list"></ul>
     </div>
 
     <div class="fixed-bottom bg-dark p-2">
         <div class="container">
             <form>
                 <div class="form-group">
-                    <input type="text" class="form-control" id="userInput" placeholder="Talk to eliza...">
+                    <!-- user input handled in js -->
+                    <input type="text" class="form-control" id="userInput" placeholder="Talk to Eliza...">
                 </div>
             </form>
         </div>
@@ -42,10 +40,10 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/js/jquery-3.2.1.slim.min.js" ></script>
+    <script src="/js/jquery-3.1.0.min.js"></script>
     <script src="/js/popper.min.js" ></script>
     <script src="/js/bootstrap.min.js" ></script>
-    <script src="jsAndajax.js"></script>
+    <script src="jsAndAjax.js"></script>
 </body>
 
 </html>

@@ -11,7 +11,7 @@ func Ask(input string) string {
 	//process input
 	//sub extracted words into answer
 	//return answer
-	return "Your reply: " + input
+	return input
 }
 
 func HandleAsk(w http.ResponseWriter, r *http.Request) {
