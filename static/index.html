@@ -11,8 +11,24 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
         body {
-            padding-top: 65px;
+            padding: 65px;
             padding-bottom: 80px;
+            padding-left: 10px;
+            padding-right: 10px; 
+        }
+        li:nth-child(even) {
+            background: rgb(157, 190, 228);   
+        }
+        li, .form-control {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 110%;
+        }
+        #error {
+            background: rgb(230, 200, 137);
+        }
+        ul {
+            list-style: none;
         }
     </style>
 </head>
@@ -24,7 +40,7 @@
 
     <div class="container-fluid">
         <!-- javascript/ajax will access ul to add list items (conversation) and hold it temporarily... by append method -->
-        <ul class="list-group" id="list"></ul>
+        <ul class="list-group" id="error"></ul>
     </div>
 
     <div class="fixed-bottom bg-dark p-2">

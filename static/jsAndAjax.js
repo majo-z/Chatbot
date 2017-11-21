@@ -4,7 +4,7 @@
 //https://api.jquery.com/event.preventdefault/
 //https://msdn.microsoft.com/en-us/library/mt260494.aspx
 
-const list = $("#list");// access list by class or id
+const list = $(".list-group");// access list by class or id
 //console.log(list);
 const form = $("#userInput");
 //console.log(form);
@@ -34,8 +34,8 @@ form.keypress(function(event){
     //.get makes jQuery do a get request
     $.get("/ask", {input:text}) //sends these parameters
         .done(function(resp){ //when it completes, this function executes, "resp" is the response from server
-            list.append("<li class=\"form-control\">" + resp + "</li>");//ajax - append new list item
+            list.append("<li class=\"list-group-item text-right\">" + resp + "</li>");//ajax - append new list item
         }).fail(function(){ //fail runs if anything goes wrong
-            list.append("<li>Connection to Eliza lost!</li>");
+            list.append("<li id=\"error\">CONNECTION TO ELIZA LOST!!</li>");
         });
 });
