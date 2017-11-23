@@ -1,0 +1,11 @@
+#if strings.HasPrefix(patternStr, "#") || strings.TrimSpace(patternStr) == "" allows
+#to have space (empty line)between pattern and responses
+#also any line starting with # will be skipped
+
+# captures anything after name is
+name is (.*)
+Hello %s, it is nice to meet you.;It's nice to meet you %s.
+
+I like (.*)
+Why do you like %s.;Do you really like %s?
+

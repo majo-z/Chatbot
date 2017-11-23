@@ -30,6 +30,9 @@ form.keypress(function(event){
 
     //ajax - append new list item
     list.append("<li class=\"list-group-item\">" + text + "</li>");
+    
+    // https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
+    window.scrollTo(0,document.body.scrollHeight);
 
     //.get makes jQuery do a get request
     $.get("/ask", {input:text}) //sends these parameters
