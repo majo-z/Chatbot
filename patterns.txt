@@ -1,11 +1,27 @@
 #if strings.HasPrefix(patternStr, "#") || strings.TrimSpace(patternStr) == "" allows
 #to have space (empty line)between pattern and responses
 #also any line starting with # will be skipped
+#default responses have been moved to to the bottom of the file
+#Researched and Adapted from:
+#https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python/
+#https://thoughtcatalog.com/oliver-miller/2012/08/a-conversation-with-eliza/
+#https://github.com/google/re2/wiki/Syntax
+#https://github.com/data-representation/eliza/blob/master/data/responses.txt
 
 # captures anything after name is
 name is (.*)
-Hello %s, it is nice to meet you.;It's nice to meet you %s.
+Hello %s, it is nice to meet you.;It's nice to meet you %s.;It is my pleasure to chat with you.
 
 I like (.*)
-Why do you like %s.;Do you really like %s?
+Why do you like %s?;Do you really like %s?
 
+#I am (.*) with many variations, like iam, i am, I'm...
+\b(?i)I['’]?\s*a?m\b
+Did you come to me because you are %s?;How long have you been %s?;How do you feel about being %s?;It makes me %s too.
+
+My favourite band is (.*)
+Why are %s your favourite band?;What's %s's best song in your oppinion?;What makes you think that %s are the best?
+
+#DEFAULT RESPONSES..if removed the program will not work(panic)
+(.*)
+Sorry I was not listening.;Let's talk about something else, do you like music?;It's boring chating with you, tell me something interesting.

@@ -2,6 +2,11 @@
 //https://golang.org/pkg/net/http/
 //http://www.alexedwards.net/blog/serving-static-sites-with-go
 //https://golang.org/pkg/math/rand/
+//https://gobyexample.com/structs
+//https://golang.org/pkg/regexp/#MustCompile
+//https://blog.golang.org/go-maps-in-action
+//https://golang.org/pkg/bufio/#NewScanner
+//https://golang.org/pkg/strings/#Replace
 //https://www.smallsurething.com/implementing-the-famous-eliza-chatbot-in-python/
 //https://regex101.com/
 //https://data-representation.github.io/notes/regexp-go.html
@@ -31,7 +36,6 @@ func HandleAsk(w http.ResponseWriter, r *http.Request) {
 	// }
 	reply := Ask(userInput) //receive answer from Eliza
 	fmt.Fprintf(w, reply)   //write the answer in the response writer
-
 }
 
 func main() {
@@ -46,10 +50,9 @@ func main() {
 
 	//listen for http file coming on to port 8080 on my computer
 	http.ListenAndServe(":8080", nil)
-
 } //main
 
-//++++++++++++++++++++ Eliza logic ++++++++++++++++++++++++++++++===============
+//++++++++++++++++++++++++++++++ Eliza logic ++++++++++++++++++++++++++++++++++++++++++
 
 var reflections map[string]string
 
@@ -61,7 +64,8 @@ type Response struct {
 
 //constructor function for a Response
 func NewResponse(pattern string, answers []string) Response {
-	response := Response{}            //create a new Response
+	response := Response{} //create a new Response
+
 	re := regexp.MustCompile(pattern) //create the regexp pattern
 	response.re = re                  //assign the values
 	response.answers = answers        //assign answers
@@ -98,9 +102,8 @@ func buildResponseList() []Response {
 		resp := NewResponse(patternStr, answerList)    //create a response from the pattern and list
 		allResponses = append(allResponses, resp)      //add that response
 	}
-
 	return allResponses //give back all responses
-}
+} //buildResponseList
 
 func getRandomAnswer(answers []string) string {
 	rand.Seed(time.Now().UnixNano()) //seed to make it return different values.
@@ -110,7 +113,6 @@ func getRandomAnswer(answers []string) string {
 
 func reflectPronouns(original string) string {
 	//reflections = readLines("file/path")// []string am:are
-
 	if reflections == nil { // map hasn't been made yet
 		reflections = map[string]string{ // will only happen once.
 			"am":     "are",
@@ -143,9 +145,8 @@ func reflectPronouns(original string) string {
 			words[index] = val //eg. you -> me
 		}
 	}
-
 	return strings.Join(words, " ") //convert the updated list of words back into a string
-}
+} //reflectPronouns
 
 func Ask(userInput string) string {
 	fmt.Println("Asking: " + userInput)
@@ -159,11 +160,17 @@ func Ask(userInput string) string {
 			//match is a list of strings
 			match := resp.re.FindStringSubmatch(userInput)
 			//match[0] is full match, match[1] is the capture group
-			captured := match[1] // captured is what we want to reflect pronouns on
+			captured := match[1] //captured is what we want to reflect pronouns on
 
-			//remove punctuation
+			//remove unwanted characters like . ? and more
+			chars := []string{".", "!", "?", ",", ";", ":"}
+			for _, removeChar := range chars { //loop through the characters we want to replace
+				//func Replace(s, old, new string, n int) string....
+				//If n < 0, there is no limit on the number of replacements
+				captured = strings.Replace(captured, removeChar, "", -1) //replace with empty char
+			}
 
-			captured = reflectPronouns(captured)
+			captured = reflectPronouns(captured) //reflect
 
 			formatAnswer := getRandomAnswer(resp.answers) //get random element.
 
@@ -171,41 +178,42 @@ func Ask(userInput string) string {
 				formatAnswer = fmt.Sprintf(formatAnswer, captured)
 			}
 			return formatAnswer
-
 		} //if
-
 	} //for
 
+	//moved default answers to patterns
+	panic("We shouldn't be here. Make sure the catch all (.*) pattern exists in patterns.txt")
 	//if there were no matches, one of the following is randomy picked
-	defaultAnswers := []string{"Sorry I was not listening.",
-		"Let's talk about something else, do you like music?",
-		"It's boring chating with you, tell me something interesting."}
+	//defaultAnswers := []string{"Sorry I was not listening.",
+	//"Let's talk about something else, do you like music?",
+	//"It's boring chating with you, tell me something interesting."}
 
-	return getRandomAnswer(defaultAnswers)
-	/*
-		//patternStr := "name is (.*)" // Hello my name is bob
-		//MustCompile, Compile to make a *regexp.Regexp struct
-		//re := regexp.MustCompile(patternStr)
+	//return getRandomAnswer(defaultAnswers)
+} //Ask
+//++++++++++++++++++++++++++++++ Test ++++++++++++++++++++++++++++++++++++++++++
+/*
+	//patternStr := "name is (.*)" // Hello my name is bob
+	//MustCompile, Compile to make a *regexp.Regexp struct
+	//re := regexp.MustCompile(patternStr)
 
-		if re.MatchString(userInput) {
-			fmt.Println("There was a match!")
-			//re.FindStringSubmatch()
-			match := re.FindStringSubmatch(userInput)
-			//match[0] is full match, match[1] is the capture group
-			captured := match[1]
-			fmt.Println(captured)
+	if re.MatchString(userInput) {
+		fmt.Println("There was a match!")
+		//re.FindStringSubmatch()
+		match := re.FindStringSubmatch(userInput)
+		//match[0] is full match, match[1] is the capture group
+		captured := match[1]
+		fmt.Println(captured)
 
-			formatString := "Hello %s, it's nice to meet" //this is the format string
-			answer := fmt.Sprintf(formatString, captured)
-			fmt.Println(answer)
+		formatString := "Hello %s, it's nice to meet" //this is the format string
+		answer := fmt.Sprintf(formatString, captured)
+		fmt.Println(answer)
 
-		} else {
-			fmt.Println("There was no match")
-		}
+	} else {
+		fmt.Println("There was no match")
+	}
 
-		//slice / list of answers, and I return 1 at random
-		//Hi bob
-		//Hello bob
-		//how's it hanging bob
-	*/
-}
+	//slice / list of answers, and I return 1 at random
+	//Hi bob
+	//Hello bob
+	//how's it hanging bob
+*/

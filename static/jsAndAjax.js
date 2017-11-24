@@ -3,6 +3,7 @@
 //https://api.jquery.com/keypress/
 //https://api.jquery.com/event.preventdefault/
 //https://msdn.microsoft.com/en-us/library/mt260494.aspx
+//https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
 
 const list = $(".list-group");// access list by class or id
 //console.log(list);
@@ -31,7 +32,6 @@ form.keypress(function(event){
     //ajax - append new list item
     list.append("<li class=\"list-group-item\">" + text + "</li>");
     
-    // https://stackoverflow.com/questions/11715646/scroll-automatically-to-the-bottom-of-the-page
     window.scrollTo(0,document.body.scrollHeight);
 
     //.get makes jQuery do a get request
